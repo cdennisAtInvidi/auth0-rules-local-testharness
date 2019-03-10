@@ -1,0 +1,35 @@
+{
+  "name": "auth0-rules-local-testharness",
+  "version": "0.1.0",
+  "description": "Deploy, execute, and test the output of Auth0 Rules using a webtask sandbox environment.",
+  "author": "Sumana Malkapuram<sumana.malkapuram@auth0.com>",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:auth0/auth0-rules-local-testharness.git"
+  },
+  "keywords": [
+    "auth0",
+    "rules",
+    "sandbox",
+    "webtask",
+    "testharness"
+  ],
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "cb": "^0.1.0",
+    "ejs": "^2.5.5",
+    "request": "^2.79.0",
+    "winston": "^2.3.1",
+    "auth0-authz-rules-api": "^3.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "nock": "^10.0.6"
+  }
+}
