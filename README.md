@@ -1,16 +1,11 @@
 # What is it?
 
-The *auth0-rules-local-testharness* library provides an easy way to deploy, execute, and test the output of Auth0 Rules using a local
- sandbox environment. It is very simple to use, and requires under 5 minutes to get started testing your Auth0 Rules! 
+The *auth0-rules-local-testharness* library provides an easy way to deploy, execute, and test the output of Auth0 Rules using a local sandbox environment. It is very simple to use, and requires under 5 minutes to get started testing your Auth0 Rules! 
 
 See here for further documentation on [Auth0 Rules](https://auth0.com/docs/rules).
 
-Depending on your needs there are several pragmatic ways to test Rules without resorting to actually deploying and executing
-them in a webtask sandbox environment. One solution is to use the [webtask runtime](https://github.com/auth0/webtask-runtime).
-Doing this offers a series of components that replicate the behaviour of the runtime component of https://webtask.io.
+This package helps the developers to test their rules in their local development environment or in a CI environment instead of testing them against the real rules engine. This package exposes just one method, `runInLocalSandbox` which can be called to run the rule in an emulator similar to that of the Auth0's rules engine. It piggy backs on nodejs `vm` package to do it.
 
-However, sometimes you just want to execute your Rule against the same sandbox environment it will be deployed to at runtime in
-Auth0, and test everything works as expected. You may also wish to write your Rules using a test driven development approach, and gain real feedback as you code - this is where this npm module can help.  It actually takes your Rule script, and any `user`, `context` and `callback` you give it, then spins up a local vm, executes your Rule passing the results to the provided callback, and finally tears the environment down again.
 
 ## What is Auth0?
 
