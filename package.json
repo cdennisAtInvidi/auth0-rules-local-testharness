@@ -1,9 +1,9 @@
 {
   "name": "auth0-rules-local-testharness",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Deploy, execute, and test the output of Auth0 Rules using a webtask sandbox environment.",
   "author": "Sumana Malkapuram<sumana.malkapuram@auth0.com>",
-  "main": "./index.js",
+  "main": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:auth0/auth0-rules-local-testharness.git"
@@ -16,7 +16,10 @@
     "testharness"
   ],
   "scripts": {
-    "test": "mocha tests"
+    "test": "mocha tests",
+    "clean": "rimraf lib",
+    "build": "cross-env BABEL_ENV=production babel ./index.js --out-dir lib",
+    "prepublishOnly": "npm run test && npm run clean && npm run build"
   },
   "license": "MIT",
   "dependencies": {
@@ -28,8 +31,19 @@
     "auth0-authz-rules-api": "^3.2.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "nock": "^10.0.6"
-  }
+    "mocha": "^6.0.2",
+    "nock": "^10.0.6",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-minify": "^0.3.0",
+    "chai": "^4.1.2",
+    "cross-env": "^5.1.3",
+    "rimraf": "^2.6.2"
+  },
+  "files": [
+    "/lib/"
+  ]
 }
