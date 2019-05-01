@@ -6,7 +6,6 @@ See here for further documentation on [Auth0 Rules](https://auth0.com/docs/rules
 
 This package helps the developers to test their rules in their local development environment or in a CI environment instead of testing them against the real rules engine. This package exposes just one method, `runInLocalSandbox` which can be called to run the rule in an emulator similar to that of the Auth0's rules engine. It piggy backs on nodejs `vm` package to do it.
 
-
 ## What is Auth0?
 
 Auth0 helps you to:
@@ -34,3 +33,8 @@ If you have found a bug or if you have a feature request, please report them at 
 ## License
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+
+## Disclaimer
+
+This library is not officially supported.
+
