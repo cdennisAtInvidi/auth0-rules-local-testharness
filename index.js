@@ -1,4 +1,5 @@
-var vm = require('vm');
+var vm = require('vm'),
+  _ = require('lodash');
 
 
 var requireWithVersionSupport = (moduleName) => {
@@ -9,28 +10,58 @@ var requireWithVersionSupport = (moduleName) => {
   return require(name);
 };
 
-var runInLocalSandbox = (ruleScript, args, configuration) => {
 
-  var scriptTemplate =`
-    (${ruleScript}).apply(null, __ruleArgs)
-  `;
+var runInLocalSandbox = (ruleScripts, user, context, configuration) => {
 
-  var executableScript = new vm.Script(scriptTemplate);
+  var asRunnable = (script) => `(${script}).call(null, user, context, callback)`;
 
-  var webtaskGlobalContext = {};
-  // filling rules engine available modules into context
-  // ref: https://auth0.com/docs/appliance/modules
-  require('auth0-authz-rules-api').extend(webtaskGlobalContext);
+  var globalContext = {
+    global: {}
+  };
 
-  var sandboxContext = Object.assign(webtaskGlobalContext, {
-    __ruleArgs: args,
+  require('auth0-authz-rules-api').extend(globalContext);
+
+  var sandboxContext = Object.assign(globalContext, {
+    user: Object.freeze(user),
+    context: Object.freeze(context),
     require: requireWithVersionSupport,
     configuration: configuration || {}
   });
 
-  var sandbox = vm.createContext(sandboxContext);
+  return new Promise((ok, fail) => {
 
-  executableScript.runInContext(sandbox);
+    var runScripts = (scripts, sharedContext) => {
+      // run all the scripts in series recursively by sharing
+      // the context (`sharedContext`)
+
+      var head = _.head(scripts);
+
+      // if no head we ran all the rules
+      if (head === undefined) {
+        // resolve the promise
+        ok();
+      } else {
+        // the shared context to use immutable contexts between rules
+        var vmContext = vm.createContext(Object.assign(sharedContext, {
+          // set the callback that is called on completion (succes/fail) of every rule
+          callback: (error, user, context) => {
+
+            if (error) {
+              // fail early and return if any of the rule fails preventing further execution
+              fail(error);
+            } else {
+              // in case of no error, process the rest of the rules
+              runScripts(_.rest(scripts), sharedContext);
+            }
+          }
+        }));
+
+        (new vm.Script(asRunnable(head))).runInContext(vmContext);
+      }
+    };
+
+    runScripts(ruleScripts, sandboxContext);
+  });
 
 };
 

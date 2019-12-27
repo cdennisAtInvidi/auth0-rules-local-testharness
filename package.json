@@ -1,6 +1,6 @@
 {
   "name": "auth0-rules-local-testharness",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Deploy, execute, and test the output of Auth0 Rules using a webtask sandbox environment.",
   "author": "Sumana Malkapuram<sumana.malkapuram@auth0.com>",
   "main": "./lib/index.js",
@@ -25,11 +25,12 @@
   "license": "MIT",
   "dependencies": {
     "assert": "^1.4.1",
+    "auth0": "^2.9.1",
+    "auth0-authz-rules-api": "^3.2.0",
     "cb": "^0.1.0",
     "ejs": "^2.5.5",
     "request": "^2.79.0",
-    "winston": "^2.3.1",
-    "auth0-authz-rules-api": "^3.2.0"
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "mocha": "^6.0.2",
