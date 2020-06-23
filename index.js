@@ -15,7 +15,14 @@ var runInLocalSandbox = (ruleScripts, user, context, configuration) => {
 
   var asRunnable = (script) => `(${script}).call(null, user, context, callback)`;
 
+  var ManagementClient = require('auth0').ManagementClient;
+
   var globalContext = {
+    auth0: new ManagementClient({
+      clientId: configuration.clientId,
+      clientSecret: configuration.clientSecret,
+      domain: configuration.domain
+    }),
     global: {}
   };
 
