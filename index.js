@@ -41,7 +41,8 @@ var runInLocalSandbox = (ruleScripts, user, context, configuration) => {
     user: Object.freeze(user),
     context: Object.freeze(context),
     require: requireWithVersionSupport,
-    configuration: configuration || {}
+    configuration: configuration || {},
+    ...(configuration.console && { console: configuration.console })
   });
 
   return new Promise((ok, fail) => {
